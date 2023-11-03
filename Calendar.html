@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #calendar {
+        table {
             margin: auto;
         }
 
-        #calendar,
-        #calendar th,
-        #calendar td {
+        table,
+        table th,
+        table td {
             border: 1px solid black;
             border-collapse: collapse;
         }
@@ -43,6 +43,20 @@
         .weeks>td:last-child {
             color: purple;
         }
+
+        #dateOfSchedule {
+            height: 18px;
+            background-color: whitesmoke;
+        }
+
+        #schedule tbody tr th {
+            width: 100px;
+            text-align: right;
+        }
+
+        #schedule tbody tr td{
+            width: 336px;
+        }
     </style>
     <script>
         let yearHeaderCell;
@@ -70,7 +84,6 @@
         }
 
         function setCalendar(dateObj) {
-            // Create date object
 
             // This year
             let currentYear = dateObj.getFullYear();
@@ -162,6 +175,25 @@
                 let month = dateObj.getMonth() + 1;
                 dateObj.setMonth(month);
                 setCalendar(dateObj);
+            });
+
+
+            let schedulteTable = document.getElementById('schedule');
+            schedulteTable.style.visibility = "hidden";
+            let dayOfThisMonth = document.getElementById('dayOfThisMonth');
+            dayOfThisMonth.addEventListener('click', event => {
+                
+                //alert(typeof Number(event.target.innerText));
+
+                let innerText = event.target.innerText;
+                if (typeof Number(innerText) && Number(innerText) > 0) {
+                    schedulteTable.style.visibility = "visible";
+                    document.getElementById('dateOfSchedule').innerHTML = "";
+                    document.getElementById('dateOfSchedule').innerHTML = innerText;
+                } else {
+                    console.log("Hidden");
+                    schedulteTable.style.visibility = "hidden";
+                }
             });
         });
     </script>
@@ -256,6 +288,52 @@
                 <td class="dayDataCell"></td>
                 <td class="dayDataCell"></td>
             </tr>
+        </tbody>
+    </table>
+    <br>
+    <table id="schedule">
+        <thead>
+            <tr>
+                <th id="dateOfSchedule" colspan="7">XXXX</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>9:00 A.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>10:00 A.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>11:00 A.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>12:00 P.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>1:00 P.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>2:00 P.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>3:00 P.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>4:00 P.M.</th>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <th>5:00 P.M.</th>
+                <td colspan="6"></td>
+            </tr> 
         </tbody>
     </table>
 </body>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            margin: auto;
+        }
+
+        #calendar,
+        #calendar th,
+        #calendar td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        #calendar th,
+        #calendar td {
+            height: 18px;
+            width: 60px;
+        }
+
+        #dayOfThisMonth {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .weeks>th:first-child {
+            color: red;
+        }
+
+        .weeks>th:last-child {
+            color: purple;
+        }
+
+        .weeks>td:first-child {
+            color: red;
+        }
+
+        .weeks>td:last-child {
+            color: purple;
+        }
+    </style>
+    <script>
+        let yearHeaderCell;
+        let monthHeaderCell;
+        let dateHeaderCell;
+        let dayHeaderCell;
+        let firstDayHeaderCell;
+        let lastDayHeaderCell;
+
+        let weekArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        function headerCellInit() {
+
+            // Get Element Start
+            yearHeaderCell = document.getElementById("year");
+            monthHeaderCell = document.getElementById("month");
+            dateHeaderCell = document.getElementById("date");
+            dayHeaderCell = document.getElementById("day");
+
+            yearHeaderCell.innerText = null;
+            monthHeaderCell.innerText = null;
+            dateHeaderCell.innerText = null;
+            dayHeaderCell.innerText = null;
+            // Get Element End
+        }
+
+        function setCalendar(dateObj) {
+            // Create date object
+
+            // This year
+            let currentYear = dateObj.getFullYear();
+
+            // This month
+            let currentMonthIndex = dateObj.getMonth();
+            let currentMonth = currentMonthIndex + 1;
+
+            // This date
+            let currentDate = dateObj.getDate();
+
+            // The day of this week
+            let theDayofTheweekIndex = dateObj.getDay();
+            let theDayofTheweek = theDayofTheweekIndex + 1;
+
+            // First day of this month
+            let firstDayOfThisMonth = new Date(currentYear, currentMonthIndex, 1).getDate();
+
+            // Last day of this month
+            let lastDayOfThisMonth = new Date(currentYear, currentMonth, 0).getDate();
+
+            let firstDayofTheweekIndex = new Date(currentYear, currentMonthIndex, 1).getDay();
+
+            console.log(`1st of The week Index ${firstDayofTheweekIndex}`);
+
+            yearHeaderCell.innerText = currentYear;
+            monthHeaderCell.innerText = currentMonth;
+            dateHeaderCell.innerText = currentDate;
+            dayHeaderCell.innerText = weekArr[theDayofTheweekIndex];
+
+            let dayDataCell = document.getElementsByClassName('dayDataCell');
+            console.log(dayDataCell.length);
+
+            let d = 1;
+            for (let i = 0; i < dayDataCell.length; i++) {
+
+                dayDataCell[i].style.backgroundColor = "transparent";
+                if (i >= firstDayofTheweekIndex && d <= lastDayOfThisMonth) {
+                    dayDataCell[i].innerText = d;
+
+
+                    if (d == currentDate) {
+                        dayDataCell[i].style.backgroundColor = "yellow";
+                    }
+                    d++;
+                } else {
+                    dayDataCell[i].innerText = "";
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", event => {
+
+            headerCellInit();
+
+            let dateObj = new Date();
+            setCalendar(dateObj);
+
+            let minusYear = document.getElementById('minusYear');
+            let addYear = document.getElementById('addYear');
+            let minusDminusMonthate = document.getElementById('minusMonth');
+            let addMonth = document.getElementById('addMonth');
+
+            // Minus 1 Year Event
+            minusYear.addEventListener("click", event => {
+                let year = dateObj.getFullYear() - 1;
+                dateObj.setFullYear(year);
+                setCalendar(dateObj);
+
+            });
+
+            // Add 1 Year Event
+            addYear.addEventListener("click", event => {
+                let year = dateObj.getFullYear() + 1;
+                dateObj.setFullYear(year);
+                setCalendar(dateObj);
+            });
+
+            // Minus 1 Month Event
+            minusMonth.addEventListener("click", event => {
+                let month = dateObj.getMonth() - 1;
+                dateObj.setMonth(month);
+                setCalendar(dateObj);
+
+            });
+
+            // Add 1 Month Event
+            addMonth.addEventListener("click", event => {
+                let month = dateObj.getMonth() + 1;
+                dateObj.setMonth(month);
+                setCalendar(dateObj);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <table id="calendar">
+        <thead>
+            <tr>
+                <th id="minusYear">&lt;&lt;</th>
+                <th id="year" colspan="5"></th>
+                <th id="addYear">&gt;&gt;</th>
+            </tr>
+            <tr>
+                <th id="minusMonth">&lt;&lt;</th>
+                <th id="month" colspan="5"></th>
+                <th id="addMonth">&gt;&gt;</th>
+            </tr>
+            <tr>
+                <th id="minusDate"></th>
+                <th id="date" colspan="5"></th>
+                <th id="addDate"></th>
+            </tr>
+            <tr>
+                <th></th>
+                <th colspan="5" id="day"></th>
+                <th></th>
+            </tr>
+            <tr class="weeks">
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </thead>
+
+        <tbody id="dayOfThisMonth">
+            <tr class="weeks">
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+            </tr>
+            <tr class="weeks">
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+            </tr>
+            <tr class="weeks">
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+            </tr>
+            <tr class="weeks">
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+            </tr>
+            <tr class="weeks">
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+            </tr>
+            <tr class="weeks">
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+                <td class="dayDataCell"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
